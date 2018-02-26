@@ -1,0 +1,109 @@
+<link rel="stylesheet" href="/stylesheets/style.css">
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style type="text/css">
+
+   .affix {
+      top: 0;
+      width: 100%;
+      z-index: 9999 !important;
+  }
+
+  .affix + .container-fluid {
+
+  }
+</style>
+<div class="bs-example" >
+    <nav class="navbar navbar-default" data-spy="affix" data-offset-top="true">
+
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+
+
+        </div>
+        <!-- Collection of nav links, forms, and other content for toggling -->
+        <div id="navbarCollapse" class="collapse navbar-collapse" style="background-color: #ffffff;">
+
+          <a href="/home"><img clas="center-block" style="align-self: center;height: 50px" src="/twitterlogo.png" class="twitterlogo"  /></a>
+            <form class="navbar-form navbar-left" method="post" action="/searchFriend">
+              <div class="input-group">
+                    <input type="text" class="form-control search" placeholder="Search friends" name="search" id="search" autocomplete="off" required>
+                    <ul class="dropdown-menu form-control scrollable-menu" style="position: absolute;" id="searchResult">
+
+                    </ul>
+
+                    <span class="input-group-btn">
+                        <button type="submit" id="searchbtn" style="padding: 3.5px 7px;" class="btn btn-default btn-post"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            </form>
+
+            <ul class="nav navbar-nav navbar-right">
+
+                <ul class="nav navbar-nav">
+                <li class="active"><a href="/home">Home</a></li>
+                <!-- <li class="active"><a href="/searchFriend">search friend</a></li> -->
+                <li class="dropdown" >
+                    <a data-toggle="dropdown" class="dropdown-toggle">Profile <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/showProfile/<%=username%>">Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/logout">Sign out</a></li>
+                    </ul>
+                </li>
+            </ul>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#searchResult").hide();
+
+});
+</script>
+
+
+<script type="text/javascript">
+  $("#search").focusin(function(){
+    $("#search").keyup(function(){
+      $("#searchResult").show();
+      $("#searchResult").empty();
+      let query = document.getElementById('search').value;
+      let checkbtn = $("#searchbtn").attr("id");
+      // console?.log(">>>",btn)
+          $.ajax({
+              method: "POST",
+              url: "/searchFriend",
+                data: {search : query,checkbtn: checkbtn}
+          })
+          .done(function( msg ) {
+            console.log(msg);
+            if (msg.length === 0) {
+              $("#searchResult").append('<li>No Data Found</li>');
+            } else {
+               for (var i=0; i<msg.length; i++) {
+                  $("#searchResult").append('<li><a href="/showFriendProfile/'+msg[i]["username"]+'?id='+msg[i]["username"]+'">'+msg[i]["username"]+'</a></li>');
+              }
+            }
+
+        });
+    })
+  });
+</script>
+
+
+
+
+
+

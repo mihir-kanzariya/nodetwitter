@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+  </head>
+  <style type="text/css">
+    .username {
+      font-size: 20px
+    }
+  </style>
+
+    <body>
+      <% include headerAfterLogin %>
+
+  <div class="dropdown">
+
+
+
+  </div>
+    <div id="results">
+      <div class="row">
+      <% if ( users != undefined && users.length !== 0) {  %>
+
+      <% for (let i = users.length-1; i >= 0; i--) { %>
+        <div class="twPc-div col-md-3">
+           <a class="twPc-bg twPc-block" style="width=100%;background : url('/images/cover.jpg')"></a><div>
+             <div class="twPc-button" >
+              <a href="/showFriendProfile/<%= users[i].username  %>?id=<%= users[i].username  %>" class=" username twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">@  <%= users[i].username  %>  </a>
+             </div>
+             <a title="Mert Salih Kaplan" href="/showFriendProfile/<%= users[i].username  %>?id=<%= users[i].username  %>  " class="twPc-avatarLink">
+              <img alt="Mert Salih Kaplan" src="  <%=users[i].img  %>  " class="twPc-avatarImg">
+             </a>
+             <div class="twPc-divUser">
+              <div class="twPc-divName">
+               <a  href="/showFriendProfile/<%= users[i].username  %>?id=<%= users[i].username  %>  "><%= users[i].name  %>  </a>
+              </div>
+              <span>
+               <a href="/showFriendProfile/<%= users[i].username  %>?id=<%= users[i].username  %>  ">
+                <span class="username">@  <%=users[i].username  %>  </span>
+               </a>
+              </span>
+              <input type="hidden" value="  <%=users[i].usernme  %>  " id="friendUsername  <%=users[i]._id  %>  " name="friendUsername">
+              <button class="btn btn-primary pull-right" onclick="<%=users[i].statusbtn%>(this)" name="<%= users[i].statusbtn  %>  " id="<%= users[i].username%>" style="width : 80px;height:30px;border-radius: 50px;border-color:#29a1f2;color:#29a1f2;background-color: #fff;line-height: 10px">   <%= users[i].statusbtn  %>  </button>
+             </div>
+            </div>
+          </div>
+
+      <% } %>
+      <% } else {%>
+      <div class="col-md-3">
+        <h1>No User Found</h1>
+      </div>
+      <% } %>
+
+
+
+      </div>
+
+     </div>
+  <ul>
+
+
+  </ul>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="javascript/followfn.js"></script>
+<script type="text/javascript" src="javascript/unfollowfn.js"></script>
+
+
+    </body>
+</html>
+

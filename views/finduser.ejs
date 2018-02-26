@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<% include header %>
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<body>
+<div class="container">
+     <% if(messages.success){ %>
+    <div class="alert alert-success alert-dismissable">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Success!</strong> <%= messages.success %>
+    </div>
+  <% } %>
+   <% if(messages.info){ %>
+    <div class="alert alert-info alert-dismissable">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>INFO!</strong> <%= messages.info %>
+    </div>
+  <% } %>
+  <% if(messages.failed){ %>
+    <div class="alert alert-danger alert-dismissable">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Failed!</strong> <%= messages.failed %>
+
+    </div>
+  <% } %>
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Enter your email</h3>
+        </div>
+          <div class="panel-body">
+            <form accept-charset="UTF-8" role="form" action="/finduser" onsubmit="return ValidateEmail()" method="post">
+                    <fieldset>
+
+              <div class="form-group"><input class="form-control" placeholder="Enter Your email" id="email" onchange="return ValidateEmail()" name="email" type="text">
+                <p id="mailerr" style="color: red"></p>
+              </div>
+
+              <div class="checkbox">
+
+                </div>
+              <input class="btn btn-lg btn-success btn-block" type="submit" value="Send">
+            </fieldset>
+              </form>
+
+
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+
+
+  function ValidateEmail() {
+    var formEmail = document.getElementById("email").value;
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if(formEmail.match(mailformat)) {
+      document.getElementById("mailerr").innerHTML="";
+      return true;
+    } else {
+      document.getElementById("mailerr").innerHTML="You have entered an invalid email address!";
+      // formEmail.focus();
+      return false;
+    }
+  }
+
+</script>
+
+</body>
+</html>

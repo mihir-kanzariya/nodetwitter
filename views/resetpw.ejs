@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+<% include header %>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<body>
+   <% if(messages.success){ %>
+    <div class="alert alert-success alert-dismissable">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong></strong> <%= messages.success %>
+    </div>
+  <% } %>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Reset password</h3>
+        </div>
+        <div class="panel-body">
+          <form accept-charset="UTF-8" role="form" action="/resetpw" method="post">
+            <fieldset>
+              <div class="form-group">
+                <input type="hidden" name="hash" value="<%=checkhash%>">
+                <input class="form-control" placeholder="Enter Password" id="pw" onchange="return pw_validation()" name="pw" type="password">
+                <p id="pwerr" style="color: red"></p>
+              </div>
+              <div class="form-group">
+                <input class="form-control" placeholder="Re-Enter Password" name="confirmpw" onchange="return cpw_validation()" id="cpw" type="password" value="">
+                <p id="cpwerr" style="color: red"></p>
+                <p id="cpwerr2" style="color: red"></p>
+              </div>
+
+              <input class="btn btn-lg btn-success btn-block" type="submit" value="Reset"><br/>
+
+
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function pw_validation()  {
+    var pw = document.getElementById("pw").value;
+    var passid_len = pw.length;
+    var min = 7;
+    var max = 12;
+
+    if (passid_len == 0 ||passid_len < min || passid_len > max) {
+
+      document.getElementById("pwerr").innerHTML="Password should not be empty / length should be between "+min+"and"+max;
+      // pw.focus();
+      return false;
+    }
+    else{
+      document.getElementById("pwerr").innerHTML="";
+      return true;
+    }
+
+  }
+
+  function cpw_validation()  {
+    var pw = document.getElementById("pw").value;
+    var cpw = document.getElementById("cpw").value;
+    var passid_len = cpw.length;
+    var min = 7;
+    var max = 12;
+    if (passid_len == 0 ||passid_len < min || passid_len > max) {
+
+      document.getElementById("cpwerr").innerHTML="Password should not be empty / length should be between "+min+"and"+max;
+      // pw.focus();
+      return false;
+    } else if(cpw != pw){
+      document.getElementById("cpwerr2").innerHTML="Password and confirm password must be same ";
+      return false;
+    }else {
+      document.getElementById("cpwerr").innerHTML="";
+      document.getElementById("cpwerr2").innerHTML="";
+      return true;
+    }
+  }
+</script>
+</body>
+</html>

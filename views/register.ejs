@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<% include header %>
+<script type="text/javascript">
+  $(document).ready(function(){
+    console.log(document.getElementById('name11').value);
+  })
+</script>
+<body>
+<div class="container">
+
+   <% if(messages.failed){ %>
+    <div class="alert alert-danger alert-dismissable">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Failed!</strong> <%= messages.failed %>
+
+    </div>
+  <% } %>
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Join Twitter Today</h3>
+        </div>
+          <div class="panel-body">
+
+            <form accept-charset="UTF-8" name="myForm"  role="form" onsubmit="return ValidateForm()" action="/register" method="POST"  required>
+               <fieldset>
+                <div class="form-group">
+                  <input class="form-control" onchange="return allLetter()"  placeholder="Enter Name" name="name" id ="name" type="text" required>
+                  <p id="nameerr" style="color: red"></p>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" placeholder="Enter Username" name="uname" id="uname" type="text" required>
+
+                </div>
+                <div class="form-group">
+                  <input class="form-control" placeholder="Enter Email" onchange="return ValidateEmail()" name="email" id="email" type="email
+                  " required>
+                  <p id="mailerr" style="color: red"></p>
+
+                </div>
+                <div class="form-group">
+                  <input class="form-control" placeholder="Password" name="pw" onchange="return pw_validation()" id="pw" type="password" value="" required>
+                  <p id="pwerr" style="color: red"></p>
+                </div>
+                <div class="checkbox">
+
+                </div>
+                <input class="btn btn-lg btn-success btn-block" type="submit"  value="Register">
+              </fieldset>
+            </form>
+            <hr/>
+            <button type="button" class="btn btn-lg btn-facebook btn-block"><a href="/login">Already Registered</a></button>
+
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  function ValidateForm(){
+    if(allLetter() && ValidateEmail() && pw_validation()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+</script>
+
+<script type="text/javascript">
+  function pw_validation()  {
+   var pw = document.getElementById("pw").value;
+    var passid_len = pw.length;
+    var min = 7;
+    var max = 12;
+
+    if (passid_len == 0 ||passid_len < min || passid_len > max) {
+
+      document.getElementById("pwerr").innerHTML="Password should not be empty / length should be between "+min+"and"+max;
+      // pw.focus();
+      return false;
+    }
+    else{
+      document.getElementById("pwerr").innerHTML="";
+     return true;
+    }
+
+  }
+
+  function allLetter() {
+   var formName = document.getElementById("name").value;
+    var letters = /^[A-Za-z]+$/;
+    if(formName.match(letters)) {
+      document.getElementById("nameerr").innerHTML="";
+      return true;
+    } else {
+
+      document.getElementById("nameerr").innerHTML="Username must have alphabet characters only";
+      // formName.focus();
+      return false;
+    }
+  }
+
+  function ValidateEmail() {
+    var formEmail = document.getElementById("email").value;
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if(formEmail.match(mailformat))
+    {
+      document.getElementById("mailerr").innerHTML="";
+      return true;
+    } else {
+      document.getElementById("mailerr").innerHTML="You have entered an invalid email address!";
+      // formEmail.focus();
+      return false;
+    }
+  }
+
+</script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
