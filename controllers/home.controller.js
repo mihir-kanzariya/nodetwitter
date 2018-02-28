@@ -51,7 +51,6 @@ exports.homeGet = async function (req, res) {
 		followingcount: followingcount,
 		getTweetCount: getTweetCount,
 		username: req.user.username
-
 	});
 };
 

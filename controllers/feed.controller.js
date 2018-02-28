@@ -4,11 +4,18 @@ const User = require('../models/users.models');
 // Create Tweet
 exports.createTweet = async function (req, res) {
 	let username = req.user.username;
-	let tweet = req.body.tweet;
+	let tweet = req.body.tweetArea;
+
+	if (req.files.length !== 0) {
+		img = req.files[0].path.replace('public', '');
+	} else {
+		img = "";
+	}
 
 	let newTweet = new Feed({
 		username: username,
-		tweet: tweet
+		tweet: tweet,
+		tweetimg: img,
 	});
 
 	let getUserProfileCard = await User.getUser(
@@ -18,7 +25,7 @@ exports.createTweet = async function (req, res) {
 		if (err) {
 			console.log(err);
 		}
-		res.send({tweet: newTweet.tweet, getUserProfileCard: getUserProfileCard});
+		res.redirect('/home');
 	});
 };
 

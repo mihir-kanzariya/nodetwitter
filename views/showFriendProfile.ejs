@@ -96,6 +96,11 @@
          </div>
          <!-- <a href="#myModal" class="btn btn-lg btn-primary" data-toggle="modal">Launch Demo Modal</a> -->
         <p id="tweet<%= getFriendTweets[i]._id %>"><%= getFriendTweets[i].tweet %></p>
+        <div class="row" style="margin-left: 5px">
+        <% if (getFriendTweets[i].tweetimg !== "") { %>
+								<img class="img-responsive" src="<%= getFriendTweets[i].tweetimg %>"/>
+				<% } %>
+				</div>
           <% for (let j = getFriendTweets[i].likes.length-1 ; j>=0 ; j-- ){ %>
           <% if (checkUser.username == getFriendTweets[i].likes[j].liker) {
            flag = true;

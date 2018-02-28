@@ -10,13 +10,20 @@ const User = require('../models/users.models');
 //Upload profile pic
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/images/');
+    console.log("Middleware",req.originalUrl)
+    if (req.originalUrl === "/createTweet")
+    {
+      cb(null, 'public/images/tweetimages');
+    } else if (req.originalUrl === "/profile") {
+      cb(null, 'public/images/profilepic');
+    }
   },
   path: function (req, file, cb) {
     cb(null, file.path);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname);
+    path.extname(file.originalname)
+    cb(null, req.user.username + makeid() +path.extname(file.originalname));
   },
 
 });
@@ -86,7 +93,7 @@ router.post('/unfollow', ensureAuthenticated, searchFriendController.unfollow);
 router.post('/follow', ensureAuthenticated, searchFriendController.follow);
 
 //Create Tweet
-router.post('/createTweet', ensureAuthenticated, feedController.createTweet);
+router.post('/createTweet', ensureAuthenticated, upload.any(), feedController.createTweet);
 
 //Edit Tweet
 router.post('/editTweet', ensureAuthenticated, feedController.editTweet);
@@ -129,6 +136,16 @@ function ensureAuthenticated(req, res, next) {
     req.flash('failed','Please Login');
     res.redirect('/login');
   }
+}
+
+function makeid() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+  for (var i = 0; i < 5; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+  return text;
 }
 
 

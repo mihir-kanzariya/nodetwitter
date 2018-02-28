@@ -45,7 +45,7 @@ app.use(passport.session());
 console.log("console running...");
 app.use('/', routes);
 
-
+console.log(process.env)
 // ========================== Database Connection ==============================
 const mongoURL = mongoDb.makeConnectionString();
 mongoose.connect(mongoURL);

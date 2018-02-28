@@ -14,6 +14,9 @@ let feedSchema = mongoose.Schema({
 			return new Date();
 		}
 	},
+	tweetimg: {
+		type: String
+	},
 	deletedAt: {
 		type: Date,
 		default: ''
@@ -65,8 +68,6 @@ module.exports.like = function (query, condition) {
 			if (err) {
 				reject(err);
 			}
-			// let res = Feed.find(query)?
-
 			resolve(data);
 		});
 	});

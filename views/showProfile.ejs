@@ -136,7 +136,13 @@
 
          </div>
          <!-- <a href="#myModal" class="btn btn-lg btn-primary" data-toggle="modal">Launch Demo Modal</a> -->
+
         <p id="tweet<%= getTweets[i]._id %>"><%= getTweets[i].tweet %></p>
+        <div class="row" style="margin-left: 5px">
+        <% if (getTweets[i].tweetimg !== "") { %>
+								<img class="img-responsive" src="<%= getTweets[i].tweetimg %>"/>
+				<% } %>
+				</div>
           <% for (let j = getTweets[i].likes.length-1 ; j>=0 ; j-- ){ %>
           <% if (checkUser.username == getTweets[i].likes[j].liker) {
            flag = true;
@@ -145,7 +151,7 @@
            flag = false;
            } %>
          <%} %>
-         <div class="row" id="likeParent" style="margin-bottom: 0px;">
+         <div class="row" id="likeParent" style="margin-bottom: 0px;margin-top: 10px">
            <% if (flag == true) { %>
             <div class="col-md-1 col-sm-1 col-xs-1">
              <input type="image" class="unlike" src="/images/twitterunLike.png"

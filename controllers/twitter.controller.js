@@ -10,7 +10,10 @@ const jwt = require('jsonwebtoken');
 var crypto = require('crypto');
 let flash = require('express-flash');
 
+let EMAIL = process.env.EMAIL;
+let PASSWORD = process.env.PASSWORD;
 let SECRETKEY = process.env.SECRETKEY;
+
 let random, mailOptions, host, link;
 
 exports.registerGet = function (req, res) {
@@ -23,7 +26,6 @@ exports.registerGet = function (req, res) {
 };
 
 exports.registerPost = async function (req, res) {
-	console.log('post');
 	let username = req.body.uname;
 	let name = req.body.name;
 	let email = req.body.email;
@@ -201,7 +203,10 @@ exports.finduserPost = async function (req, res) {
 				subject: 'Please confirm your Email account',
 				html: 'Hello,<br> Please Click on the link to reset your password.' + link
 			};
+			console.log(">>>>>",MAIL)
+
 			console.log(mailOptions);
+			console.log(">>>>>",MAIL)
 
 			// sending mail to created user
 			smtpTransport.sendMail(mailOptions, function (error, response) {
@@ -270,7 +275,7 @@ exports.logout = function (req, res) {
 let smtpTransport = nodemailer.createTransport({
 	service: 'Gmail',
 	auth: {
-		user: 'enter email id',
-		pass: 'Enter pw'
+		user: EMAIL,
+		pass: PASSWORD,
 	}
 });
