@@ -124,7 +124,7 @@ exports.verifyAccount = async function (req, res) {
 		let updateuser = await User.updateUser({username: isVerified.username},
 			{$set: {status: true}});
 		req.flash('success', 'registration success. Please do login');
-		res.redirect('login');
+		res.redirect('/login');
 	} else {
 		req.flash('failed', 'Verification link expired');
 		res.redirect('/register');

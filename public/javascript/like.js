@@ -8,6 +8,6 @@ function like (obj) {
   })
     .done(function (data) {
       $('#' + like).attr({src: '/images/twitterunLike.png', onclick: 'unlike(this)'});
-      $('#cnt' + like).text(data.likercount);
+      // $('#cnt' + like).text(data.likercount);
     });
 }

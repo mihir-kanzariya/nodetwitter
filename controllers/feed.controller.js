@@ -1,10 +1,16 @@
 const Feed = require('../models/feed.models');
 const User = require('../models/users.models');
+const Follower = require('../models/follow.models');
+
 
 // Create Tweet
 exports.createTweet = async function (req, res) {
 	let username = req.user.username;
 	let tweet = req.body.tweetArea;
+
+	followerList = await Follower.getFollowingList(
+			{ following: req.user.username, status: true});
+	console.log(followerList)
 
 	if (req.files.length !== 0) {
 		img = req.files[0].path.replace('public', '');
@@ -25,6 +31,9 @@ exports.createTweet = async function (req, res) {
 		if (err) {
 			console.log(err);
 		}
+
+		// socket.broadcast.to(socketid).emit('message', 'for your eyes only');
+		// io.sockets.connected[userSocketId].emit('socketName', 'some text');
 		res.redirect('/home');
 	});
 };
@@ -47,6 +56,7 @@ exports.like = async function (req, res) {
 	let likercount = await Feed.getLiker({_id: _id});
 
 	if (likeTweet) {
+		req.io.emit('like',{likercount: likercount.likes.length,tweetid: _id})
 		res.send({likercount: likercount.likes.length});
 	}
 };
@@ -73,6 +83,8 @@ exports.unLike = async function (req, res) {
 	let likercount = await Feed.getLiker({_id: _id});
 
 	if (unLikeTweet) {
+		req.io.emit('unlike',{likercount: likercount.likes.length,tweetid: _id})
+
 		res.send({likercount: likercount.likes.length});
 	}
 };

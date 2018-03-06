@@ -256,7 +256,16 @@
 <script type="text/javascript" src="javascript/previewimg.js"></script>
 
 
- <script type="text/javascript" src="javascript/removeimg.js"></script>
+<script type="text/javascript" src="javascript/removeimg.js"></script>
+<script type="text/javascript">
+  let socket = io('http://localhost:3001/');
+  socket.on('like', function(data){
+      $('#cnt' +data.tweetid).text(data.likercount);
+  });
+  socket.on('unlike',function(data){
+      $('#cnt' + data.tweetid).text(data.likercount);
+  })
+</script>
 
 <!-- <script type="text/javascript">
 	$("#tweetdiv").blur(function(){

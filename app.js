@@ -18,6 +18,8 @@ const passport = require('passport');
 const LocalStrategy = require("passport-local").Strategy;
 let bcrypt = require('bcrypt');
 
+let www = require('./bin/www')
+
 
 const routes = require('./routes');
 const User = require('./models/users.models');
@@ -43,9 +45,15 @@ app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 console.log("console running...");
+
+app.use(function(req,res,next){
+  req.io = www.io;
+  next();
+})
+
 app.use('/', routes);
 
-console.log(process.env)
+// console.log(process.env)
 // ========================== Database Connection ==============================
 const mongoURL = mongoDb.makeConnectionString();
 mongoose.connect(mongoURL);

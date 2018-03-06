@@ -10,7 +10,6 @@ const User = require('../models/users.models');
 //Upload profile pic
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log("Middleware",req.originalUrl)
     if (req.originalUrl === "/createTweet")
     {
       cb(null, 'public/images/tweetimages');

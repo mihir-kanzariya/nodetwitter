@@ -230,6 +230,16 @@
 <!-- Send value to pop -up for editing tweet -->
 <script type="text/javascript" src="../../javascript/myModal.js"></script>
 
+<script type="text/javascript">
+  let socket = io('http://localhost:3001/');
+  socket.on('like', function(data){
+      $('#cnt' +data.tweetid).text(data.likercount);
+  });
+  socket.on('unlike',function(data){
+      $('#cnt' + data.tweetid).text(data.likercount);
+  })
+</script>
+
 </body>
 </html>
 
