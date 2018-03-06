@@ -120,7 +120,6 @@ passport.use(new LocalStrategy(
       if (ismatch) {
         return done(null, getuser);
       } else {
-        // req.flash('failed');
         return done(null, false ,{message:'password incorrect'});
       }
     } else {
