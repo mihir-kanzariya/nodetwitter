@@ -20,6 +20,9 @@ let UserSchema = mongoose.Schema({
 		type: String,
 		required: true
 	},
+	coverimg: {
+		type: String
+	},
 	img: {
 		type: String
 	},

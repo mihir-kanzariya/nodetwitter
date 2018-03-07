@@ -10,8 +10,14 @@
 	<body style="background-color: #e6ecf0">
 		<div class="container">
 			<div class="row overlay" style="background-color: #fff;height: 260px;">
-				<a class="twPc-bg twPc-block" style="height: 200px;background : url('/images/cover.jpg')">
+				<a class="twPc-bg twPc-block" id="coverdiv" style="height: 200px;width: 100%; background : url('<%= checkUser.coverimg %>')" >
+        <form action="/coverimg" id="coverform" method="post" enctype="multipart/form-data" onsubmit="return ValidateImage()">
+        <label class="btn" id="uploadimg">
+              <span class="glyphicon glyphicon-camera" style="height: 20px;width: 20px"></span>
+              <input style="display: none;" type="file" onchange="submitform()" name='coverimg' id='coverimg'>
+            </label>
 
+            </form>
 				</a>
 				<div>
 
@@ -231,7 +237,10 @@
 <script type="text/javascript" src="../../javascript/myModal.js"></script>
 
 <script type="text/javascript">
-  let socket = io('http://localhost:3001/');
+  // $('#change').hide();
+  $('#uploadimg').hide();
+
+    let socket = io('http://localhost:3001/');
   socket.on('like', function(data){
       $('#cnt' +data.tweetid).text(data.likercount);
   });
@@ -239,7 +248,38 @@
       $('#cnt' + data.tweetid).text(data.likercount);
   })
 </script>
+<script type="text/javascript">
+    function ValidateImage(){
+    // alert("s?ss");
+    var ext = document.getElementById("coverimg").value.split('.').pop().toLowerCase();;
+    // console.log(">>",>ext);
+    if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+      alert('Only Images are allowed');
+      return false;
+      // document.getElementById("img").value = ''
+      // document.getElementById("imgError").innerHTML="Only images are allowed";
 
+    }
+  }
+</script>
+
+
+
+<script type="text/javascript">
+  $('#coverdiv').mouseover(function(){
+  $('#uploadimg').show();
+
+  })
+  $('#coverdiv').mouseout(function(){
+  $('#uploadimg').hide();
+
+  })
+</script>
+<script type="text/javascript">
+  function submitform(){
+    $('#coverform').submit();
+  }
+</script>
 </body>
 </html>
 

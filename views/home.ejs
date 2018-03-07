@@ -12,11 +12,11 @@
 			<div class="row">
 				<div class="col-md-3 col-sm-3">
 					<div class="twPc-div">
-						<a class="twPc-bg twPc-block" style="background : url('/images/cover.jpg')"></a>
+						<a class="twPc-bg twPc-block" style="background : url('<%= getUserProfileCard.coverimg %>')"></a>
 						<div>
 							<div class="twPc-button" >
 
-								<a href="/showProfile/<%= getUserProfileCard.username %>" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">@<%= getUserProfileCard.username %></a>
+								<a href="/showProfile/<%= getUserProfileCard.username %>"  class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">@<%= getUserProfileCard.username %></a>
 							</div>
 								<a title="Mert Salih Kaplan" href="/showProfile/<%= getUserProfileCard.username %>"
 										class="twPc-avatarLink">
@@ -234,7 +234,6 @@
 
 	$("#img").change(function(){
 		let img = document.getElementById("img").value
-		console.log(">>",img);
 		if (img !== null ) {
 			$("#Tweet").show();
 	 		$button.prop("disabled",false);
