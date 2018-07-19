@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="/stylesheets/style.css">
+		<% include headerAfterLogin %>
+	</head>
+
+	<body style="background-color: #e6ecf0">
+		<div class="container">
+			<div class="row overlay" style="background-color: #fff;height: 260px;">
+				<a class="twPc-bg twPc-block" id="coverdiv" style="height: 200px;width: 100%; background : url('<%= checkUser.coverimg %>')" >
+        <form action="/coverimg" id="coverform" method="post" enctype="multipart/form-data" onsubmit="return ValidateImage()">
+        <label class="btn" id="uploadimg">
+              <span class="glyphicon glyphicon-camera" style="height: 20px;width: 20px"></span>
+              <input style="display: none;" type="file" onchange="submitform()" name='coverimg' id='coverimg'>
+            </label>
+
+            </form>
+				</a>
+				<div>
+
+					<div class="twPc-button">
+						<a href="" class="twitter-follow-button"
+						 data-show-count="false" data-size="large" data-show-screen-name="false"
+						 data-dnt="true">@<%= checkUser.username %></a>
+					</div>
+
+					<a title="Mert Salih Kaplan" href=""
+							class="twPc-avatarLink" style="margin-left: 88px">
+						<img alt="Mert Salih Kaplan" src="<%= checkUser.img %>"
+						class="twPc-avatarImg" style="height: 150px;width: 150px">
+					</a>
+					<div class="twPc-divStatsFrnd">
+						<ul class="twPc-Arrange list-group">
+
+							<li class="twPc-ArrangeSizeFit">
+								<button id="tweet" class="btn btn-link" style="background-color: #fff;border-color: #fff" title="<%= getTweetCount %> Following"> <span class="twPc-StatLabel twPc-block">Tweet</span>
+									<span class="twPc-StatValue"><%= getTweetCount %></span>
+								</button>
+							</li>
+
+							<li class="twPc-ArrangeSizeFit">
+								<button id="followingcount" class="btn btn-link" style="background-color: #fff;border-color: #fff" title="<%= followingcount-1 %> Following"> <span class="twPc-StatLabel twPc-block">Following</span>
+									<span class="twPc-StatValue" id="followingcountSpan"><%= followingcount-1 %></span>
+								</button>
+							</li>
+
+							<li class="twPc-ArrangeSizeFit">
+								<button id="followercount" class="btn btn-link" style="background-color: #fff;border-color: #fff" title="<%= followercount-1%> Following">
+									<span class="twPc-StatLabel twPc-block">Followers</span>
+									<span class="twPc-StatValue" id="followercountSpan"><%= followercount-1%></span>
+								</a>
+							</li>
+
+							<li class="twPc-ArrangeSizeFit">
+								<form method="GET" action="/<%=username%>/editprofile" enctype="multipart/form-data">
+
+								<input type="submit" class="btn btn-primary pull-right" style="border-color:#29a1f2;color:#29a1f2;background-color: #fff;border-radius: 50px;" id="editProfile" value="Edit Profile"/>
+					</form>
+							</li>
+						</ul>
+					</div>
+				</div>
+	</div>
+
+	<br/><br/>
+	<div class="row" style="padding-top : 8px;">
+		<div class="col-md-3 col-sm-3">
+			<h5><b> Username : </b><%= checkUser.username %></h5>
+		</div>
+		<div class="col-md-9 col-sm-9">
+			<div class="row" id="followingA" style="word-break:break-all;list-style-type: none;">
+		</div>
+		</div>
+
+		<div class="col-md-6" id="tweetArea" style="word-break:break-all;list-style-type: none;">
+		</div>
+		<div class="col-md-6" id="tweetAreaHome" style="word-break:break-all;list-style-type: none;">
+			<% for(let i = getTweets.length-1;i >= 0 ; i--) {%>
+
+       <div class="well twtdiv row" style="margin-bottom: -18px;background-color: #ffffff;">
+        <div class="col-md-2">
+
+         <img src="<%= checkUser.img %>" class="img-circle" alt="Cinque Terre" width="48" height="48">
+        </div>
+        <% let flag %>
+        <div class="col-md-10">
+         <div class="row">
+          <div class="col-md-11 col-sm-11 col-xs-11">
+           <strong style="font-size: 17px"><%= checkUser.name %></strong>&nbsp;@<%= checkUser.username %>&nbsp;&nbsp;&nbsp; <%= getTweets[i].date %>
+          </div>
+
+          <!-- start Pop-up For Tweet Editing -->
+
+          <div class="col-md-1 col-sm-1 col-xs-1" >
+           <a class="twPc-avatarLink dropdown-toggle" onclick="modal(this)" data-toggle="dropdown" style="margin-top: 2px">
+            <input type="hidden" id="hidetweet<%= getTweets[i]._id %>" value="<%=getTweets[i].tweet%>"/>
+            <input type="hidden" id="hideid<%= getTweets[i]._id %>" value="<%= getTweets[i]._id %>"/>
+
+            <img style="height: 13px;width: 13px;padding-right: 1px" src="/images/arrowdown.png"/></a>
+            <ul class="dropdown-menu">
+            <li><a href="#myModal" data-toggle="modal">Edit Tweet</a></li>
+
+
+          </ul>
+             <div id="myModal" class="modal fade" style="padding-top: 100px">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <button type="button" id="close_btn" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Edit Tweet</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form method="post" action="/editTweet">
+                      <div class="form-group">
+                        <div class="row" style="padding-left: 20px ">
+                         <!-- <div class="col-md-1"></div> -->
+                         <div class="col-md-2"><img src="<%= checkUser.img %>" class="img-circle" alt="Cinque Terre" width="48" height="48"></div>
+                         <div class="col-md-10">
+                          <label for="inputComment"><h4><%= checkUser.name %></h4></label>@<%= checkUser.username %></div>
+                         <!-- <div class="col-md-8"></div> -->
+                        </div>
+                        <br/>
+                        <textarea class="form-control" id="EditTweet" rows="4"></textarea>
+                        <input type="hidden" id="id" value="">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" id="closeModal" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="EditTweet()" id="done">Done</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- END Pop-up For Tweet Editing -->
+
+
+         </div>
+         <!-- <a href="#myModal" class="btn btn-lg btn-primary" data-toggle="modal">Launch Demo Modal</a> -->
+
+        <p id="tweet<%= getTweets[i]._id %>"><%= getTweets[i].tweet %></p>
+        <div class="row" style="margin-left: 5px">
+        <% if (getTweets[i].tweetimg !== "") { %>
+								<img class="img-responsive" src="<%= getTweets[i].tweetimg %>"/>
+				<% } %>
+				</div>
+          <% for (let j = getTweets[i].likes.length-1 ; j>=0 ; j-- ){ %>
+          <% if (checkUser.username == getTweets[i].likes[j].liker) {
+           flag = true;
+           break;
+           } else {
+           flag = false;
+           } %>
+         <%} %>
+         <div class="row" id="likeParent" style="margin-bottom: 0px;margin-top: 10px">
+           <% if (flag == true) { %>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+             <input type="image" class="unlike" src="/images/twitterunLike.png"
+             onclick="unlike(this)" id="<%= getTweets[i]._id %>" style="height: 20px;width: 20px;"
+             name="<%=getTweets[i].likes.length%>">
+            </div>
+            <div class="col-md-11 col-sm-11 col-xs-11" style="padding-left: 1px">
+             <p id="cnt<%= getTweets[i]._id %>" value="q"><%=getTweets[i].likes.length%></p>
+            </div>
+           <% } else { %>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+              <input type="image" class="like" src="/images/twitterLike.png"
+              onclick="like(this)" id="<%= getTweets[i]._id %>" style="height: 20px;width: 20px;"
+              name="<%=getTweets[i].likes.length%>">
+            </div>
+            <div class="col-md-11 col-sm-11 col-xs-11" style="padding-left: 1px">
+             <p id="cnt<%= getTweets[i]._id %>" value="q"><%=getTweets[i].likes.length%></p>
+            </div>
+           <% } %>
+        </div>
+       </div>
+       </div>
+      <% } %>
+		</div>
+		<!-- <div class="col-md-3 well"></div> -->
+	</div>
+
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="../../javascript/followinglist.js"> </script>
+<!-- Follower List -->
+<script type="text/javascript">
+	 $("#followercount").click(function() {
+	 	$( "#tweetAreaHome" ).hide();
+	 	$( "#followingA" ).show();
+		$( "#followingA" ).empty();
+		// $( "#following" ).load( "p.ejs" );
+			$.ajax({
+				method: "POST",
+				url: "/follower",
+			})
+			.done(function( data ) {
+				console.log("===", data)
+				for(let i = data.followerList.length-1 ; i>=1 ; i--) {
+
+					$("#followingA")
+					.prepend(' <div class="twPc-div col-md-4 col-sm-4 col-xm-4"><a class="twPc-bg twPc-block" style="width=100%;background : url(\'/images/cover.jpg\')"></a><div><div class="twPc-button" ><a href="" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">'+ data.followerList[i].username +'</a></div><a title="Mert Salih Kaplan" href="/showFriendProfile/'+data.followerList[i].username+'?id='+data.followerList[i].username+'" class="twPc-avatarLink"><img alt="Mert Salih Kaplan" src="'+ data.followerList[i].img +'" class="twPc-avatarImg"></a><div class="twPc-divUser"><div class="twPc-divName"><a href="/showFriendProfile/'+data.followerList[i].username+'?id='+data.followerList[i].username+'">'+ data.followerList[i].name +'</a></div><span><a href="/showFriendProfile/'+data.followerList[i].username+'?id='+data.followerList[i].username+'"><span>'+ data.followerList[i].username +'</span></a></span><input type="hidden" value="'+ data.followerList[i].username +'" id="friendUsername'+data.followerList[i]._id+'" name="friendUsername"><button class="btn btn-primary pull-right" onclick="'+data.followerList[i].statusbtn+'(this)" name="'+data.followerList[i].statusbtn+'" id="'+data.followerList[i].username+'" style="width : 80px;height:30px;border-radius: 50px;border-color:#29a1f2;color:#29a1f2;background-color: #fff;line-height: 10px">'+data.followerList[i].statusbtn+'</button></div></div></div>');
+				}
+			});
+	 });
+	</script>
+
+	<!-- Following List -->
+<script type="text/javascript">
+	 $("#tweet").click(function() {
+	 	$( "#followingA" ).hide();
+	 	$( "#tweetAreaHome" ).show();
+		// $( "#tweetArea" ).empty();
+
+	 });
+</script>
+<!-- Follow and unfollow function -->
+<script type="text/javascript" src="../../javascript/followfn.js"></script>
+<script type="text/javascript" src="../../javascript/unfollowfn.js"></script>
+
+<!-- Like Unlike -->
+<script type="text/javascript" src="../../javascript/like.js"> </script>
+<script type="text/javascript" src="../../javascript/unlike.js"></script>
+
+<script type="text/javascript" src="../../javascript/editTweet.js"></script>
+
+<!-- Send value to pop -up for editing tweet -->
+<script type="text/javascript" src="../../javascript/myModal.js"></script>
+
+<script type="text/javascript">
+  // $('#change').hide();
+  $('#uploadimg').hide();
+
+    let socket = io('http://localhost:3001/');
+  socket.on('like', function(data){
+      $('#cnt' +data.tweetid).text(data.likercount);
+  });
+  socket.on('unlike',function(data){
+      $('#cnt' + data.tweetid).text(data.likercount);
+  })
+</script>
+<script type="text/javascript">
+    function ValidateImage(){
+    // alert("s?ss");
+    var ext = document.getElementById("coverimg").value.split('.').pop().toLowerCase();;
+    // console.log(">>",>ext);
+    if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+      alert('Only Images are allowed');
+      return false;
+      // document.getElementById("img").value = ''
+      // document.getElementById("imgError").innerHTML="Only images are allowed";
+
+    }
+  }
+</script>
+
+
+
+<script type="text/javascript">
+  $('#coverdiv').mouseover(function(){
+  $('#uploadimg').show();
+
+  })
+  $('#coverdiv').mouseout(function(){
+  $('#uploadimg').hide();
+
+  })
+</script>
+<script type="text/javascript">
+  function submitform(){
+    $('#coverform').submit();
+  }
+</script>
+</body>
+</html>
+

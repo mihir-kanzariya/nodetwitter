@@ -1,0 +1,207 @@
+ <!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet"
+			href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+		<% include headerAfterLogin %>
+	</head>
+
+	<body style="background-color: #e6ecf0">
+		<div class="container">
+			<div class="row" style="  background-color: #fff;">
+				<a class="twPc-bg twPc-block" style="  height: 200px;"></a>
+					<div>
+						<div class="twPc-button">
+							<a href="" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">@<%= checkUser.username %></a>
+						</div>
+
+						<a title="" href=""
+							class="twPc-avatarLink">
+							<img alt="Mert Salih Kaplan" src="<%= checkUser.img %>" class="twPc-avatarImg" style="height: 150px;width: 150px">
+						</a>
+
+						<div class="twPc-divUser">
+							<div class="twPc-divName">
+								<a href=""><%= checkUser.name %></a>
+								 <input type="hidden" value="<%= username %>" id="username" name="username">
+									<input type="hidden" value="<%= checkUser.username %>" id="friendUsername" name="friendUsername">
+									 <%if (status == "follow") { %>
+										 <button class="btn btn-primary btn-lg pull-right" id="unfollow"><%= status %></button>
+									 <% } else { %>
+										 <button class="btn btn-primary btn-lg pull-right" id="follow" ><%= status %></button>
+									 <% } %>
+							<!-- <input type="submit" class="btn btn-primary btn-lg pull-right" id="editProfile" value="Edit Profile"/> -->
+							</div>
+							<span>
+							<a>@<span><%= checkUser.username %></span></a>
+							</span>
+						</div>
+
+						<div class="twPc-divStats">
+							<ul class="twPc-Arrange">
+
+								<li class="twPc-ArrangeSizeFit">
+									<button id="tweet" class="btn btn-link" style="background-color: #fff;border-color: #fff" title="<%= getTweetCount %> Following"> <span class="twPc-StatLabel twPc-block">Tweet</span>
+										<span class="twPc-StatValue">Tweet <%= getTweetCount %></span>
+									</button>
+								</li>
+
+								<li class="twPc-ArrangeSizeFit">
+									<button id="followingcount" class="btn btn-link" style="background-color: #fff;border-color: #fff" title="<%= followingcount-1 %> Following"> <span class="twPc-StatLabel twPc-block">Following</span>
+										<span class="twPc-StatValue"><%= followingcount-1 %></span>
+									</button>
+								</li>
+
+								<li class="twPc-ArrangeSizeFit">
+									<button id="followercount" class="btn btn-link" style="background-color: #fff;border-color: #fff" title="<%= followercount-1 %> Following">
+										<span class="twPc-StatLabel twPc-block">Followers</span>
+										<span class="twPc-StatValue"><%= followercount-1 %></span>
+										</button>
+
+								</li>
+							</ul>
+						</div>
+				</div>
+	</div>
+
+	<div class="row" style="padding-top : 7px;">
+		<div class="col-md-3">
+			<h5><b> Username : </b><%= checkUser.username %></h5>
+			<input type="hidden" name="friendUsername" id="friendUsername">
+		</div>
+		<div class="col-md-9" id="followingA" style="word-break:break-all;">
+		</div>
+		<div class="col-md-6" id="tweetAreaHome" style="word-break:break-all;list-style-type: none;">
+   <% for(let i = getFriendTweets.length-1;i >= 0 ; i--) {%>
+
+       <div class="well twtdiv row" style="margin-bottom: -18px;background-color: #ffffff;">
+        <div class="col-md-2">
+         <img src="<%= checkUser.img %>" class="img-circle" alt="Cinque Terre" width="48" height="48">
+        </div>
+        <% let flag %>
+        <div class="col-md-10">
+         <div class="row">
+          <div class="col-md-11 col-sm-11 col-xs-11">
+           <strong style="font-size: 17px"><%= checkUser.name %></strong>&nbsp;@<%= checkUser.username %>&nbsp;&nbsp;&nbsp; <%= getFriendTweets[i].date %>
+          </div>
+
+          <!-- start Pop-up For Tweet Editing -->
+
+
+
+          <!-- END Pop-up For Tweet Editing -->
+
+
+         </div>
+         <!-- <a href="#myModal" class="btn btn-lg btn-primary" data-toggle="modal">Launch Demo Modal</a> -->
+        <p id="tweet<%= getFriendTweets[i]._id %>"><%= getFriendTweets[i].tweet %></p>
+        <div class="row" style="margin-left: 5px">
+        <% if (getFriendTweets[i].tweetimg !== "") { %>
+								<img class="img-responsive" src="<%= getFriendTweets[i].tweetimg %>"/>
+				<% } %>
+				</div>
+          <% for (let j = getFriendTweets[i].likes.length-1 ; j>=0 ; j-- ){ %>
+          <% if (checkUser.username == getFriendTweets[i].likes[j].liker) {
+           flag = true;
+           break;
+           } else {
+           flag = false;
+           } %>
+         <%} %>
+         <div class="row" id="likeParent" style="margin-bottom: 0px;">
+           <% if (flag == true) { %>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+             <input type="image" class="unlike" src="/images/twitterunLike.png"
+             onclick="unlike(this)" id="<%= getFriendTweets[i]._id %>" style="height: 20px;width: 20px;"
+             name="<%=getFriendTweets[i].likes.length%>">
+            </div>
+            <div class="col-md-11 col-sm-11 col-xs-11" style="padding-left: 1px">
+             <p id="cnt<%= getFriendTweets[i]._id %>" value="q"><%=getFriendTweets[i].likes.length%></p>
+            </div>
+           <% } else { %>
+            <div class="col-md-1 col-sm-1 col-xs-1">
+              <input type="image" class="like" src="/images/twitterLike.png"
+              onclick="like(this)" id="<%= getFriendTweets[i]._id %>" style="height: 20px;width: 20px;"
+              name="<%=getFriendTweets[i].likes.length%>">
+            </div>
+            <div class="col-md-11 col-sm-11 col-xs-11" style="padding-left: 1px">
+             <p id="cnt<%= getFriendTweets[i]._id %>" value="q"><%=getFriendTweets[i].likes.length%></p>
+            </div>
+           <% } %>
+        </div>
+       </div>
+       </div>
+      <% } %>
+  </div>
+
+	</div>
+
+
+</div>
+
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+		<script type="text/javascript">
+			$("#follow").click(function() {
+					let myUsername = document.getElementById('username').value;
+					let friendUsername = document.getElementById('friendUsername').value;
+						$.ajax({
+									method: "POST",
+									url: "/unfollow",
+									data: {myUsername : myUsername, friendUsername : friendUsername}
+								})
+								.done(function( msg ) {
+									location.reload()
+								});
+				});
+		</script>
+		<script type="text/javascript">
+			$("#unfollow").click(function() {
+
+			let myUsername = document.getElementById('username').value;
+			let friendUsername = document.getElementById('friendUsername').value;
+				$.ajax({
+							method: "POST",
+							url: "/follow",
+							data: {myUsername : myUsername, friendUsername : friendUsername}
+						})
+						.done(function( msg ) {
+							 %>(">>>",msg);
+							location.reload();
+						});
+		});
+		</script>
+
+<script type="text/javascript">
+	 $("#tweet").click(function() {
+	 	$( "#followingA" ).hide();
+	 	$( "#tweetAreaHome" ).show();
+
+	 });
+</script>
+<script type="text/javascript" src="../../javascript/followinglist4frnd.js"> </script>
+<script type="text/javascript" src="../../javascript/followerlist4frnd.js">
+</script>
+<script type="text/javascript" src="../../javascript/followfn.js"></script>
+<script type="text/javascript" src="../../javascript/unfollowfn.js"></script>
+<script type="text/javascript" src="../../javascript/like.js"> </script>
+<script type="text/javascript" src="../../javascript/unlike.js"></script>
+<script type="text/javascript" src="../../javascript/editTweet.js"></script>
+<script type="text/javascript" src="../../javascript/myModal.js"></script>
+
+<script type="text/javascript">
+  let socket = io('http://localhost:3001/');
+  socket.on('like', function(data){
+      $('#cnt' +data.tweetid).text(data.likercount);
+  });
+  socket.on('unlike',function(data){
+      $('#cnt' + data.tweetid).text(data.likercount);
+  })
+</script>
+
+</body>
+</html>
+

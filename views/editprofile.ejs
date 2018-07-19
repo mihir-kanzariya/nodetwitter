@@ -1,0 +1,139 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="bootstrap.min.css">
+<link href="css/bootstrap-imgupload.css" rel="stylesheet">
+</head>
+<body>
+<% include headerAfterLogin %>
+<div class="container">
+     <% if(messages.failed){ %>
+    <div class="alert alert-danger alert-dismissable">
+      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <strong>Failed!</strong> <%= messages.failed %>
+
+    </div>
+  <% } %>
+
+    <h1>Edit Profile</h1>
+    <hr>
+    <div class="row">
+      <!-- left column -->
+
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+
+
+
+        <form class="form-horizontal" role="form" method="post" onsubmit="return allvalidate()" action="/profile" enctype="multipart/form-data" id='infoForm'>
+
+          <h3>Personal info</h3>
+
+
+
+           <div class="form-group">
+            <label class="col-lg-3 control-label">Profile Pic:</label>
+            <div class="col-lg-8">
+              <input type="file" class="form-control" value="<%=checkUser.img%>" onchange="ValidateImage()" name='img' id='img'>
+              <p id="imgError" style="color: red"></p>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Name:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" onchange="return allLetter()" value = '<%=checkUser.name%>'
+               name="name" id="name" >
+              <p id="nameerr" style="color: red"></p>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+              <input class="form-control" type="text" onchange="return ValidateEmail()" value="<%=checkUser.email%>" name="email" id="email">
+              <p id="mailerr" style="color: red"></p>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-md-3 control-label"></label>
+            <div class="col-md-8">
+              <input type="submit" class="btn btn-primary" value="Save Changes"/>
+              <span></span>
+              <input type="reset" class="btn btn-default" value="Cancel">
+            </div>
+          </div>
+        </form>
+
+      </div>
+  </div>
+</div>
+<hr>
+<script type="text/javascript">
+ function ValidateEmail() {
+    var formEmail = document.getElementById("email").value;
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (formEmail.match(mailformat))
+    {
+      document.getElementById("mailerr").innerHTML="";
+      return true;
+    } else {
+      document.getElementById("mailerr").innerHTML="You have entered an invalid email address!";
+      // formEmail.focus();
+      return false;
+    }
+  }
+function allLetter() {
+   var formName = document.getElementById("name").value;
+    var letters = /^[A-Za-z]+$/;
+    if (formName.match(letters)) {
+      document.getElementById("nameerr").innerHTML="";
+      return true;
+    } else {
+      document.getElementById("nameerr").innerHTML="Username must have alphabet characters only";
+      // formName.focus();
+      return false;
+    }
+  }
+
+</script>
+<script type="text/javascript">
+  function ValidateImage(){
+    // alert("s?ss");
+    var ext = document.getElementById("img").value.split('.').pop().toLowerCase();;
+    console.log(">>",ext);
+    if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
+      // alert('invalid extension!');
+      document.getElementById("img").value = ''
+      document.getElementById("imgError").innerHTML="Only images are allowed";
+
+    }
+
+
+  }
+</script>
+<script type="text/javascript">
+  function allvalidate() {
+    if (ValidateEmail() && allLetter()) {
+      return true
+    } else {
+      return false
+    }
+  }
+</script>
+
+<script type="text/javascript">
+document.getElementById("uploadBtn").onchange = function () {
+document.getElementById("uploadFile").value = this.value;
+};
+</script>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</body>
+</html>
