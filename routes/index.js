@@ -15,6 +15,8 @@ let storage = multer.diskStorage({
       cb(null, 'public/images/tweetimages');
     } else if (req.originalUrl === "/profile") {
       cb(null, 'public/images/profilepic');
+    } else if (req.originalUrl === "/coverimg") {
+      cb(null, 'public/images/coverpic');
     }
   },
   path: function (req, file, cb) {
@@ -47,6 +49,9 @@ const twitterController = require('../controllers/twitter.controller.js');
 const homeController = require('../controllers/home.controller.js');
 const searchFriendController = require('../controllers/SearchFriend.controller.js');
 const feedController = require('../controllers/feed.controller.js');
+
+
+router.post('/coverimg', upload.any(), homeController.coverimg);
 
 //Register user
 router.get('/register', twitterController.registerGet);

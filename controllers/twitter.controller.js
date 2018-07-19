@@ -1,7 +1,7 @@
 const User = require('../models/users.models');
 const cipher = require('../models/cipher.models');
 const Follower = require('../models/follow.models');
-
+require('dotenv').config();
 const help = require('../controllers/helper.controller.js');
 
 var nodemailer = require('nodemailer');
@@ -12,6 +12,8 @@ let flash = require('express-flash');
 
 let EMAIL = process.env.EMAIL;
 let PASSWORD = process.env.PASSWORD;
+
+
 let SECRETKEY = process.env.SECRETKEY;
 
 let random, mailOptions, host, link;
@@ -203,14 +205,11 @@ exports.finduserPost = async function (req, res) {
 				subject: 'Please confirm your Email account',
 				html: 'Hello,<br> Please Click on the link to reset your password.' + link
 			};
-			console.log(">>>>>",MAIL)
-
 			console.log(mailOptions);
-			console.log(">>>>>",MAIL)
-
 			// sending mail to created user
 			smtpTransport.sendMail(mailOptions, function (error, response) {
 				if (error) {
+					console.log(error);
 					res.end('error');
 				} else {
 					req.flash('info', 'password reset link has been send to ' + mailOptions.to);

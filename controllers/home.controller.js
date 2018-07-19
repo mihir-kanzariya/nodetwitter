@@ -30,6 +30,7 @@ exports.homeGet = async function (req, res) {
 
 		getUser = await User.getUser({ username: followingList[k].following });
 
+
 		for (let count = getTweets.length - 1; count >= 0; count--) {
 			getTweets[count].path = getUser.img;
 			getTweets[count].name = getUser.name;
@@ -112,10 +113,33 @@ exports.profilePost = async function (req, res) {
 	res.redirect('/showProfile/' + req.user.username);
 };
 
+exports.coverimg = async (req,res) => {
+	console.log(req.body);
+	console.log(req.files);
+
+	if (req.files.length !== 0) {
+		img = req.files[0].path.replace('public', '');
+	} else {
+		img = "/images/cover.jpg";
+	}
+
+	// console.log('')
+
+
+	let updateuser = await User.updateUser({username: req.user.username},
+			{$set: {coverimg: img}});
+
+
+
+// res.render();
+	res.redirect('/showProfile/' + req.user.username);
+}
+
 // To put tweet time in proper format
 function formatDate (dateFrom) {
 	let monthNames = ['Jan', 'Feb', 'March', 'Apr', 'May', 'June',
 		'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'];
+	// let currentdate = new Date(),
 
 	let d = new Date(dateFrom),
 		month = monthNames[d.getMonth() + 1 ],

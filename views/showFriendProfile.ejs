@@ -16,14 +16,14 @@
 							<a href="" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">@<%= checkUser.username %></a>
 						</div>
 
-						<a title="Mert Salih Kaplan" href="/showProfile"
+						<a title="" href=""
 							class="twPc-avatarLink">
 							<img alt="Mert Salih Kaplan" src="<%= checkUser.img %>" class="twPc-avatarImg" style="height: 150px;width: 150px">
 						</a>
 
 						<div class="twPc-divUser">
 							<div class="twPc-divName">
-								<a href="/showProfile""><%= checkUser.name %></a>
+								<a href=""><%= checkUser.name %></a>
 								 <input type="hidden" value="<%= username %>" id="username" name="username">
 									<input type="hidden" value="<%= checkUser.username %>" id="friendUsername" name="friendUsername">
 									 <%if (status == "follow") { %>
@@ -34,7 +34,7 @@
 							<!-- <input type="submit" class="btn btn-primary btn-lg pull-right" id="editProfile" value="Edit Profile"/> -->
 							</div>
 							<span>
-							<a href="https://twitter.com/mertskaplan">@<span><%= checkUser.username %></span></a>
+							<a>@<span><%= checkUser.username %></span></a>
 							</span>
 						</div>
 
